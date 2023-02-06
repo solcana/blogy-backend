@@ -100,6 +100,31 @@ router.delete("/api/articles/:id", (req, res) => {
  * Description: ----- UPDATE An Article by Article ID
  */
 
+router.patch("/api/articles/:id", (req, res) => {
+  Article.findById(req.params.id)
+    .then((article) => {
+      if (article) {
+        // Pass the result of Mongoose's '.update' method to the next '.then'
+        return article.update(req.body.article);
+      } else {
+        res.status(404).json({
+          error: {
+            name: "DocumentNotFoundError",
+            message: "The provided ID does not exist",
+          },
+        });
+      }
+    })
+    .then(() => {
+      // If the update succeded, return 204 and no JSON
+      res.status(204).end();
+    })
+    .catch((error) => {
+      res.status(500).json({ error: error });
+    });
+});
+// UPDATE is extremely similar to the DELETE
+
 /**
  * Action: ---- CREATE
  * Method: ---- POST
