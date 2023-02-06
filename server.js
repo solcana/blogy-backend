@@ -22,6 +22,15 @@ const port = process.env.PORT || 5000;
 // so here we need to specifiy a different one
 // so they dont run on same port
 
+/** Middleware */
+
+// Add 'bodyParser' middleware which will parse JSON
+// requests into JS Objects before they reach
+// the route files.
+//
+// The method '.use' sets up middleware for Express apps.
+app.use(express.json());
+
 /**
  * Routes
  *
