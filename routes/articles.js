@@ -33,6 +33,26 @@ router.get("/api/articles", (req, res) => {
  * Description: ----- Get An Article by Article ID
  */
 
+router.get("/api/articles/:id", (req, res) => {
+  Article.findById(req.params.id)
+    .then((article) => {
+      if (article) {
+        res.status(200).json({ article: article });
+      } else {
+        // If we couldn't find a document with the matching ID
+        res.status(404).json({
+          error: {
+            name: "DocumentNotFoundError",
+            message: "The provided ID does not exist",
+          },
+        });
+      }
+    })
+    // catch any error (general) that might occur
+    .catch((error) => {
+      res.status(500).json({ error: error });
+    });
+});
 /**
  * Action: ---- DESTROY
  * Method: ---- DELETE
